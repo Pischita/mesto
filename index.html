@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Mesto</title>
     <link rel="stylesheet" href="./pages/index.css">
 </head>
 
@@ -16,9 +16,10 @@
         <section class="profile">
             <img class="profile__avatar" src="./images/avatar.jpg" alt="Аватарка">
             <div class="profile__info">
-                <h1 class="profile__name">Жак-Ив Кусто <button class="profile__edit-button" type="button"></button>
-                </h1>
-
+                <div class="profile__name-container">
+                    <h1 class="profile__name">Жак-Ив Кусто</h1>
+                    <button class="profile__edit-button" type="button"></button>
+                </div>
                 <p class="profile__position">Исследователь океана</p>
 
             </div>
@@ -85,15 +86,16 @@
     <div class="popup">
         <form class="popup__container">
             <h2 class="popup__header">Редактировать профиль</h2>
-            <input class="popup__field" type="text" name="name" value="Жак-Ив Кусто">
-            <input class="popup__field" type="text" name="position" value="Исследователь океана">
+            <input class="popup__field" type="text" name="name">
+            <input class="popup__field" type="text" name="position">
 
-            <button type="submit">Сохранить</button>
+            <button class="popup__button" type="submit">Сохранить</button>
+            <button class="popup__close-button" type="button"></button>
 
         </form>
     </div>
 
-
+    <script src="./scripts/main.js"></script>
 </body>
 
 </html>

@@ -10,3 +10,8 @@
   background-repeat: no-repeat;
   background-position: center;
 }
+
+.profile__add-button:hover {
+  cursor: pointer;
+  opacity: 0.6;
+}
