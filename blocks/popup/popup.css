@@ -5,6 +5,9 @@
   right: 0;
   bottom: 0;
 
+  padding-left: 19px;
+  padding-right: 19px;
+
   z-index: 1;
 
   background: rgba(0, 0, 0, 0.5);
