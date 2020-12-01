@@ -1,25 +1,19 @@
-const popup = document.querySelector('.popup');
-const editBtn = document.querySelector('.profile__edit-button');
-const closePopupBtn = document.querySelector('.popup__close-button');
-const editForm = document.querySelector('.popup__container');
-const nameNode = document.querySelector('.profile__name');
-const nameInput = document.querySelector('.popup__field[name="name"]');
+let popup = document.querySelector('.popup');
+let editBtn = document.querySelector('.profile__edit-button');
+let closePopupBtn = document.querySelector('.popup__close-button');
+let editForm = document.querySelector('.popup__container');
+let nameNode = document.querySelector('.profile__name');
+let nameInput = document.querySelector('.popup__field_name_name');
 
-const positionNode = document.querySelector('.profile__position');
-const positionInput = document.querySelector('.popup__field[name="position"]');
+let positionNode = document.querySelector('.profile__position');
+let positionInput = document.querySelector('.popup__field_name_position');
 
-editBtn.addEventListener('click', showPopup);
-closePopupBtn.addEventListener('click', closePopup);
-editForm.addEventListener('submit', savePopup);
 
 function showPopup(event){
     nameInput.value = nameNode.textContent;
     positionInput.value = positionNode.textContent;
-
     popup.classList.add('popup_opened');
 }
-
-
 
 function closePopup(event){
     popup.classList.remove('popup_opened');
@@ -27,11 +21,12 @@ function closePopup(event){
 
 function savePopup(event){
     event.preventDefault();
-
     nameNode.textContent = nameInput.value;
     positionNode.textContent = positionInput.value;
-
-    popup.classList.remove('popup_opened');
-
-
+    closePopup();
 }
+
+
+editBtn.addEventListener('click', showPopup);
+closePopupBtn.addEventListener('click', closePopup);
+editForm.addEventListener('submit', savePopup);

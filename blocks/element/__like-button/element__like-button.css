@@ -1,17 +1,25 @@
 .element__like-button {
   height: 18.13px;
   width: 20.76px;
- 
   flex-shrink: 0;
-  
   background-color: transparent;
   background-image: url('../../../images/icon-like.svg');
- 
+  background-repeat: no-repeat;
   outline: none;
   border: none;
 }
 
-.element__like-button:focus{
+.element__like-button:hover {
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.element__like-button:active {
+  background-image: url('../../../images/icon-like-active.svg');
+  opacity: 1;
+}
+
+.element__like-button:focus {
   outline: none;
   border: none;
 }
