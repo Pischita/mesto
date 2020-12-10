@@ -1,5 +1,6 @@
 const editPopup = document.querySelector('.popup_name_edit');
 const addPopup = document.querySelector('.popup_name_add');
+const container = document.querySelector('.elements');
 
 let editBtn = document.querySelector('.profile__edit-button');
 const addBtn = document.querySelector('.profile__add-button');
@@ -37,6 +38,20 @@ const initialCards = [{
     }
 ];
 
+function buildMestoNode(el) {
+    const mestoTemplate = document.querySelector('#mesto-element');
+
+
+    const mestoNode = mestoTemplate.content.cloneNode(true);
+    const imgNode = mestoNode.querySelector('.element__image');
+    imgNode.src = el.link;
+    imgNode.alt = el.name;
+    mestoNode.querySelector('.element__name').textContent = el.name;
+    mestoNode.querySelector('.element__like-button').addEventListener('click', setLikeHandler);
+    mestoNode.querySelector('.element__delete').addEventListener('click', deleteHandeler);
+    return mestoNode;
+}
+
 
 function showEditPopup(event) {
     nameInput.value = nameNode.textContent;
@@ -61,25 +76,30 @@ function saveEditPopup(event) {
     } else if (event.target === document.forms.add) {
         const name = event.target.querySelector('.popup__field_name_name').value;
         const link = event.target.querySelector('.popup__field_name_source-image').value;
-        addElement({
+        const mestoNode = buildMestoNode({
             name: name,
             link: link
         });
+
+        container.prepend(mestoNode);
+
+
 
     }
 
     closePopup(event);
 }
 
-function addElement(el) {
-    const mestoTemplate = document.querySelector('#mesto-element');
-    const container = document.querySelector('.elements');
+function setLikeHandler(evt) {
+    evt.target.classList.toggle('element__like-button_active');
+}
 
-    const mestoNode = mestoTemplate.content.cloneNode(true);
-    const imgNode = mestoNode.querySelector('.element__image');
-    imgNode.src = el.link;
-    imgNode.alt = el.name;
-    mestoNode.querySelector('.element__name').textContent = el.name;
+function deleteHandeler(evt) {
+    evt.target.closest('.element').remove();
+}
+
+function addElement(el) {
+    const mestoNode = buildMestoNode(el);
     container.append(mestoNode);
 }
 
@@ -100,3 +120,11 @@ document.querySelectorAll('.popup__container').forEach(form => {
 
 addBtn.addEventListener('click', showAddPopup);
 initializePage();
+
+document.querySelectorAll('.element__like-button').forEach(btn => {
+    btn.addEventListener('click', setLikeHandler);
+});
+
+document.querySelectorAll('.element__delete').forEach(btn => {
+    btn.addEventListener('click', deleteHandeler);
+});
