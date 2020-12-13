@@ -8,5 +8,7 @@
   padding-right: 19px;
   z-index: 1;
   background: rgba(0, 0, 0, 0.5);
-  display: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: visibility 0s, opacity 0.5s linear;
 }

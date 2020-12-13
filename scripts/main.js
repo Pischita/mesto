@@ -1,5 +1,6 @@
 const editPopup = document.querySelector('.popup_name_edit');
 const addPopup = document.querySelector('.popup_name_add');
+const mestoPopup = document.querySelector('.popup_name_mesto');
 const container = document.querySelector('.elements');
 
 let editBtn = document.querySelector('.profile__edit-button');
@@ -46,6 +47,8 @@ function buildMestoNode(el) {
     const imgNode = mestoNode.querySelector('.element__image');
     imgNode.src = el.link;
     imgNode.alt = el.name;
+    imgNode.addEventListener('click', showMestoPopup);
+
     mestoNode.querySelector('.element__name').textContent = el.name;
     mestoNode.querySelector('.element__like-button').addEventListener('click', setLikeHandler);
     mestoNode.querySelector('.element__delete').addEventListener('click', deleteHandeler);
@@ -61,6 +64,16 @@ function showEditPopup(event) {
 
 function showAddPopup() {
     addPopup.classList.add('popup_opened');
+}
+
+function showMestoPopup(evt) {
+    const imgNode = mestoPopup.querySelector('.popup__image');
+    imgNode.src = evt.target.src;
+    imgNode.alt = evt.target.alt;
+
+    mestoPopup.querySelector('.popup__image-description').textContent = evt.target.alt;
+    mestoPopup.classList.add('popup_opened');
+
 }
 
 function closePopup(event) {
@@ -82,11 +95,7 @@ function saveEditPopup(event) {
         });
 
         container.prepend(mestoNode);
-
-
-
     }
-
     closePopup(event);
 }
 
@@ -127,4 +136,8 @@ document.querySelectorAll('.element__like-button').forEach(btn => {
 
 document.querySelectorAll('.element__delete').forEach(btn => {
     btn.addEventListener('click', deleteHandeler);
+});
+
+document.querySelectorAll('.element__image').forEach(image => {
+    image.addEventListener('click', showMestoPopup);
 });
