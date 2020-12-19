@@ -3,46 +3,19 @@ const addPopup = document.querySelector('.popup_name_add');
 const mestoPopup = document.querySelector('.popup_name_mesto');
 const container = document.querySelector('.elements');
 
-let editBtn = document.querySelector('.profile__edit-button');
+const editBtn = document.querySelector('.profile__edit-button');
 const addBtn = document.querySelector('.profile__add-button');
-let closePopupBtn = document.querySelectorAll('.popup__close-button');
-let editForm = document.querySelector('.popup__container');
-let nameNode = document.querySelector('.profile__name');
-let nameInput = document.querySelector('.popup__field_name_name');
+const closePopupBtn = document.querySelectorAll('.popup__close-button');
+const editForm = document.querySelector('.popup__container');
+const nameNode = document.querySelector('.profile__name');
+const nameInput = document.querySelector('.popup__field_name_name');
 
-let positionNode = document.querySelector('.profile__position');
-let positionInput = document.querySelector('.popup__field_name_position');
+const positionNode = document.querySelector('.profile__position');
+const positionInput = document.querySelector('.popup__field_name_position');
 
-const initialCards = [{
-        name: 'Архыз',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-        name: 'Челябинская область',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-        name: 'Иваново',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-        name: 'Камчатка',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-        name: 'Холмогорский район',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-        name: 'Байкал',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-];
 
 function buildMestoNode(el) {
     const mestoTemplate = document.querySelector('#mesto-element');
-
-
     const mestoNode = mestoTemplate.content.cloneNode(true);
     const imgNode = mestoNode.querySelector('.element__image');
     imgNode.src = el.link;
@@ -55,15 +28,18 @@ function buildMestoNode(el) {
     return mestoNode;
 }
 
+function showPopup(popupElement) {
+    popupElement.classList.add('popup_opened');
+}
 
 function showEditPopup(event) {
     nameInput.value = nameNode.textContent;
     positionInput.value = positionNode.textContent;
-    editPopup.classList.add('popup_opened');
+    showPopup(editPopup);
 }
 
 function showAddPopup() {
-    addPopup.classList.add('popup_opened');
+    showPopup(addPopup);
 }
 
 function showMestoPopup(evt) {
@@ -72,31 +48,36 @@ function showMestoPopup(evt) {
     imgNode.alt = evt.target.alt;
 
     mestoPopup.querySelector('.popup__image-description').textContent = evt.target.alt;
-    mestoPopup.classList.add('popup_opened');
+    showPopup(mestoPopup);
 
 }
 
-function closePopup(event) {
-    event.target.closest('.popup').classList.remove('popup_opened');
+function closePopup(popupElement) {
+    popupElement.classList.remove('popup_opened');
+}
+
+function addNewMesto(evt) {
+    evt.preventDefault();
+
+    const name = event.target.querySelector('.popup__field_name_name').value;
+    const link = event.target.querySelector('.popup__field_name_source-image').value;
+    const mestoNode = buildMestoNode({
+        name: name,
+        link: link
+    });
+    container.prepend(mestoNode);
+    evt.target.reset();
+    closePopup(evt.target.closest('.popup'));
+
 }
 
 function saveEditPopup(event) {
     event.preventDefault();
 
-    if (event.target === document.forms.edit) {
-        nameNode.textContent = nameInput.value;
-        positionNode.textContent = positionInput.value;
-    } else if (event.target === document.forms.add) {
-        const name = event.target.querySelector('.popup__field_name_name').value;
-        const link = event.target.querySelector('.popup__field_name_source-image').value;
-        const mestoNode = buildMestoNode({
-            name: name,
-            link: link
-        });
+    nameNode.textContent = nameInput.value;
+    positionNode.textContent = positionInput.value;
 
-        container.prepend(mestoNode);
-    }
-    closePopup(event);
+    closePopup(event.target.closest('.popup'));
 }
 
 function setLikeHandler(evt) {
@@ -120,19 +101,19 @@ function initializePage() {
 
 editBtn.addEventListener('click', showEditPopup);
 closePopupBtn.forEach(btn => {
-    btn.addEventListener('click', closePopup);
+    btn.addEventListener('click', () => {
+        closePopup(btn.closest('.popup'));
+    });
 });
 
-document.querySelectorAll('.popup__container').forEach(form => {
-    form.addEventListener('submit', saveEditPopup);
-});
+document.forms.edit.addEventListener('submit', saveEditPopup);
+document.forms.add.addEventListener('submit', addNewMesto);
+
 
 addBtn.addEventListener('click', showAddPopup);
 initializePage();
 
-document.querySelectorAll('.element__like-button').forEach(btn => {
-    btn.addEventListener('click', setLikeHandler);
-});
+
 
 document.querySelectorAll('.element__delete').forEach(btn => {
     btn.addEventListener('click', deleteHandeler);
