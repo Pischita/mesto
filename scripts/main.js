@@ -6,7 +6,7 @@ const container = document.querySelector('.elements');
 const editBtn = document.querySelector('.profile__edit-button');
 const addBtn = document.querySelector('.profile__add-button');
 const closePopupBtn = document.querySelectorAll('.popup__close-button');
-const editForm = document.querySelector('.popup__container');
+const addForm = document.forms.add;
 const nameNode = document.querySelector('.profile__name');
 const nameInput = document.querySelector('.popup__field_name_name');
 
@@ -67,7 +67,7 @@ function addNewMesto(evt) {
     });
     container.prepend(mestoNode);
     evt.target.reset();
-    closePopup(evt.target.closest('.popup'));
+    closePopup(addPopup);
 
 }
 
@@ -77,7 +77,7 @@ function saveEditPopup(event) {
     nameNode.textContent = nameInput.value;
     positionNode.textContent = positionInput.value;
 
-    closePopup(event.target.closest('.popup'));
+    closePopup(editPopup);
 }
 
 function setLikeHandler(evt) {
@@ -88,14 +88,12 @@ function deleteHandeler(evt) {
     evt.target.closest('.element').remove();
 }
 
-function addElement(el) {
-    const mestoNode = buildMestoNode(el);
-    container.append(mestoNode);
-}
 
 function initializePage() {
     initialCards.forEach(item => {
-        addElement(item);
+        const mestoNode = buildMestoNode(item);
+        container.append(mestoNode);
+
     });
 }
 
@@ -106,19 +104,13 @@ closePopupBtn.forEach(btn => {
     });
 });
 
+addForm.querySelector('.popup__close-button').addEventListener('click', (evt) => {
+    addForm.reset();
+});
+
 document.forms.edit.addEventListener('submit', saveEditPopup);
 document.forms.add.addEventListener('submit', addNewMesto);
 
 
 addBtn.addEventListener('click', showAddPopup);
 initializePage();
-
-
-
-document.querySelectorAll('.element__delete').forEach(btn => {
-    btn.addEventListener('click', deleteHandeler);
-});
-
-document.querySelectorAll('.element__image').forEach(image => {
-    image.addEventListener('click', showMestoPopup);
-});
