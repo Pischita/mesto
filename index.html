@@ -37,11 +37,14 @@
     </footer>
 
     <div class="popup popup_name_edit">
-        <form class="popup__container" name="edit">
+        <form class="popup__container" name="edit" novalidate>
             <h2 class="popup__header">Редактировать профиль</h2>
-            <input class="popup__field popup__field_name_name" type="text" name="name" placeholder="Введите ваше имя">
-            <input class="popup__field popup__field_name_position" type="text" name="position"
-                placeholder="Ваше призвание">
+            <input class="popup__field popup__field_name_name" id="edit-name" type="text" name="name"
+                placeholder="Введите ваше имя" minlength="2" maxlength="40" required>
+            <span class="popup__input-error-message" id="edit-name-error"></span>
+            <input class="popup__field popup__field_name_position" id="edit-position" type="text" name="position"
+                placeholder="Ваше призвание" minlength="2" maxlength="200" required>
+            <span class="popup__input-error-message" id="edit-position-error"></span>
             <button class="popup__button" type="submit">Сохранить</button>
             <button class="popup__close-button" type="button" aria-label="Закрыть"></button>
         </form>

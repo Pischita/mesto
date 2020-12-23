@@ -114,3 +114,44 @@ document.forms.add.addEventListener('submit', addNewMesto);
 
 addBtn.addEventListener('click', showAddPopup);
 initializePage();
+
+
+/* Валидация */
+
+function validateForm(formElement) {
+    const inputs = formElement.querySelectorAll('.popup__field');
+    const submitButton = formElement.querySelector('.popup__button');
+
+    const isValid = Array.from(inputs).every(input => {
+        return input.validity.valid;
+    });
+
+    if (isValid) {
+        submitButton.classList.remove('popup__button_disabled');
+        submitButton.removeAttribute('disabled');
+    } else {
+        submitButton.classList.add('popup__button_disabled');
+        submitButton.setAttribute('disabled', true);
+    }
+}
+
+function validateField(inputElement, formElement) {
+    const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
+
+    if (inputElement.validity.valid) {
+        errorElement.textContent = '';
+        inputElement.classList.remove('popup__field_error');
+    } else {
+        errorElement.textContent = inputElement.validationMessage;
+        inputElement.classList.add('popup__field_error');
+    }
+
+    validateForm(formElement);
+
+}
+
+document.querySelectorAll('.popup__field').forEach(input => {
+    input.addEventListener('input', (evt) => {
+        validateField(evt.target, document.forms.edit);
+    });
+});
