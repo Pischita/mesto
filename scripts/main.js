@@ -150,8 +150,14 @@ function validateField(inputElement, formElement) {
 
 }
 
-document.querySelectorAll('.popup__field').forEach(input => {
-    input.addEventListener('input', (evt) => {
-        validateField(evt.target, document.forms.edit);
+const forms = document.forms;
+
+Array.from(forms).forEach((form) => {
+    form.querySelectorAll('.popup__field').forEach(input => {
+        input.addEventListener('input', (evt) => {
+            validateField(evt.target, form);
+        });
     });
+
+    validateForm(form);
 });
