@@ -51,19 +51,4 @@ function enableValidation(settings) {
 }
 
 
-
-document.querySelectorAll('.popup').forEach((popup) => {
-    popup.addEventListener('keydown', (evt) => {
-        if (evt.key == 'Escape') {
-            closePopup(popup); //
-        }
-    });
-
-    popup.addEventListener('click', (evt) => {
-        if (evt.target === popup) {
-            closePopup(popup);
-        }
-    })
-});
-
 enableValidation(settings);

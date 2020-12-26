@@ -1,11 +1,14 @@
 const editPopup = document.querySelector('.popup_name_edit');
 const addPopup = document.querySelector('.popup_name_add');
-const mestoPopup = document.querySelector('.popup_name_mesto');
+const imagePopup = document.querySelector('.popup_name_imagePopup');
+const imgNode = imagePopup.querySelector('.popup__image');
+const imagePopupTitle = imagePopup.querySelector('.popup__image-description');
+
 const container = document.querySelector('.elements');
 
 const editBtn = document.querySelector('.profile__edit-button');
 const addBtn = document.querySelector('.profile__add-button');
-const closePopupBtn = document.querySelectorAll('.popup__close-button');
+const closePopupBtns = document.querySelectorAll('.popup__close-button');
 const addForm = document.forms.add;
 const nameNode = document.querySelector('.profile__name');
 const nameInput = document.querySelector('.popup__field_name_name');
@@ -14,13 +17,15 @@ const positionNode = document.querySelector('.profile__position');
 const positionInput = document.querySelector('.popup__field_name_position');
 
 
+
+
 function buildMestoNode(el) {
     const mestoTemplate = document.querySelector('#mesto-element');
     const mestoNode = mestoTemplate.content.cloneNode(true);
     const imgNode = mestoNode.querySelector('.element__image');
     imgNode.src = el.link;
     imgNode.alt = el.name;
-    imgNode.addEventListener('click', showMestoPopup);
+    imgNode.addEventListener('click', showImagePopup);
 
     mestoNode.querySelector('.element__name').textContent = el.name;
     mestoNode.querySelector('.element__like-button').addEventListener('click', setLikeHandler);
@@ -30,6 +35,7 @@ function buildMestoNode(el) {
 
 function showPopup(popupElement) {
     popupElement.classList.add('popup_opened');
+    document.addEventListener('keydown', closeByEscape);
 }
 
 function showEditPopup(event) {
@@ -39,21 +45,23 @@ function showEditPopup(event) {
 }
 
 function showAddPopup() {
+    addForm.reset();
     showPopup(addPopup);
 }
 
-function showMestoPopup(evt) {
-    const imgNode = mestoPopup.querySelector('.popup__image');
+function showImagePopup(evt) {
+
     imgNode.src = evt.target.src;
     imgNode.alt = evt.target.alt;
 
-    mestoPopup.querySelector('.popup__image-description').textContent = evt.target.alt;
-    showPopup(mestoPopup);
+    imagePopupTitle.textContent = evt.target.alt;
+    showPopup(imagePopup);
 
 }
 
 function closePopup(popupElement) {
     popupElement.classList.remove('popup_opened');
+    document.removeEventListener('keydown', closeByEscape);
 }
 
 function addNewMesto(evt) {
@@ -98,15 +106,19 @@ function initializePage() {
 }
 
 editBtn.addEventListener('click', showEditPopup);
-closePopupBtn.forEach(btn => {
+closePopupBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         closePopup(btn.closest('.popup'));
     });
 });
 
-addForm.querySelector('.popup__close-button').addEventListener('click', (evt) => {
-    addForm.reset();
-});
+function closeByEscape(evt) {
+    if (evt.key === 'Escape') {
+        const openedPopup = document.querySelector('.popup_opened')
+        closePopup(openedPopup);
+    }
+}
+
 
 document.forms.edit.addEventListener('submit', saveEditPopup);
 document.forms.add.addEventListener('submit', addNewMesto);
@@ -114,3 +126,17 @@ document.forms.add.addEventListener('submit', addNewMesto);
 
 addBtn.addEventListener('click', showAddPopup);
 initializePage();
+
+document.querySelectorAll('.popup').forEach((popup) => {
+    popup.addEventListener('keydown', closeByEscape);
+
+    popup.addEventListener('click', (evt) => {
+        if (evt.target.classList.contains('popup_opened')) {
+            closePopup(popup);
+        }
+
+        if (evt.target.classList.contains('popup__close-button')) {
+            closePopup(popup)
+        }
+    });
+});
