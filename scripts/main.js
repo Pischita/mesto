@@ -128,8 +128,6 @@ addBtn.addEventListener('click', showAddPopup);
 initializePage();
 
 document.querySelectorAll('.popup').forEach((popup) => {
-    popup.addEventListener('keydown', closeByEscape);
-
     popup.addEventListener('click', (evt) => {
         if (evt.target.classList.contains('popup_opened')) {
             closePopup(popup);
