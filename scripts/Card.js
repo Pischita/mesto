@@ -1,9 +1,9 @@
 class Card {
-    constructor(data, selector, showPopupCb) {
+    constructor(data, selector, showImagePopup) {
         this.link = data.link;
         this.name = data.name;
         this._selector = selector;
-        this._showPopupCb = showPopupCb;
+        this._showImagePopup = showImagePopup;
 
     }
 
@@ -26,7 +26,7 @@ class Card {
 
         this._element.querySelector('.element__delete').addEventListener('click', this._deleteHandeler);
         this._element.querySelector('.element__like-button').addEventListener('click', this._setLikeHandler);
-        this._element.querySelector('.element__image').addEventListener('click', this._showPopupCb);
+        this._element.querySelector('.element__image').addEventListener('click', this._showImagePopup);
     }
 
     generateCard() {

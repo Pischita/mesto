@@ -1,20 +1,20 @@
-class FormValidator {
+export class FormValidator {
     constructor(form, settings) {
         this._form = form;
         this._settings = settings;
     }
 
-    eneableValidation() {
+    enableValidation() {
         this._form.querySelectorAll(this._settings.inputSelector).forEach(input => {
             input.addEventListener('input', (evt) => {
-                this._validateField(evt.target);
+                this._validateField(input);
             });
 
         });
-        this._validateForm();
+        this.validateForm();
     }
 
-    _validateForm() {
+    validateForm = () => {
         const inputs = this._form.querySelectorAll(this._settings.inputSelector);
         const submitButton = this._form.querySelector(this._settings.submitButtonSelector);
 
@@ -31,7 +31,7 @@ class FormValidator {
         }
     }
 
-    _validateField(inputElement) {
+    _validateField = (inputElement) => {
         const errorElement = this._form.querySelector(`#${inputElement.id}-error`);
 
         if (inputElement.validity.valid) {
@@ -41,13 +41,9 @@ class FormValidator {
             errorElement.textContent = inputElement.validationMessage;
             inputElement.classList.add(this._settings.inputErrorClass);
         }
-        this._validateForm();
+        this.validateForm();
     }
 
 
 
-}
-
-export {
-    FormValidator
 }

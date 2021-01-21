@@ -6,6 +6,10 @@ import {
     FormValidator
 } from './FormValidator.js';
 
+import {
+    initialCards
+} from './Data.js';
+
 
 const container = document.querySelector('.elements');
 
@@ -23,33 +27,10 @@ const nameNode = document.querySelector('.profile__name');
 const nameInput = document.querySelector('.popup__field_name_name');
 const positionNode = document.querySelector('.profile__position');
 const positionInput = document.querySelector('.popup__field_name_position');
+const formSet = {};
 
 
-const initialCards = [{
-        name: 'Архыз',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-        name: 'Челябинская область',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-        name: 'Иваново',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-        name: 'Камчатка',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-        name: 'Холмогорский район',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-        name: 'Байкал',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-];
+
 
 function showEditPopup(event) {
     nameInput.value = nameNode.textContent;
@@ -92,8 +73,8 @@ function showImagePopup(evt) {
 function addNewMesto(evt) {
     evt.preventDefault();
 
-    const name = evt.target.querySelector('.popup__field_name_name').value;
-    const link = evt.target.querySelector('.popup__field_name_source-image').value;
+    const name = addForm.querySelector('.popup__field_name_city').value;
+    const link = addForm.querySelector('.popup__field_name_source-image').value;
 
     const mestoNode = new Card({
         name: name,
@@ -101,8 +82,12 @@ function addNewMesto(evt) {
     }, '#mesto-element', showImagePopup).generateCard();
     container.prepend(mestoNode);
 
-    evt.target.reset();
+    addForm.reset();
     closePopup(addPopup);
+
+    if (formSet[addForm]) {
+        formSet[addForm].validateForm();
+    }
 
 }
 
@@ -131,12 +116,8 @@ addBtn.addEventListener('click', showAddPopup);
 
 document.querySelectorAll('.popup').forEach((popup) => {
     popup.addEventListener('click', (evt) => {
-        if (evt.target.classList.contains('popup_opened')) {
+        if (evt.target.classList.contains('popup_opened') || evt.target.classList.contains('popup__close-button')) {
             closePopup(popup);
-        }
-
-        if (evt.target.classList.contains('popup__close-button')) {
-            closePopup(popup)
         }
     });
 });
@@ -162,14 +143,14 @@ const settings = {
     errorClass: 'popup__error_visible'
 }
 
+
 function enableValidation(settings) {
     const forms = document.querySelectorAll(settings.formSelector);
 
     Array.from(forms).forEach((form) => {
-
-        let validator = new FormValidator(form, settings).eneableValidation();
-
-
+        const formValidator = new FormValidator(form, settings);
+        formValidator.enableValidation();
+        formSet[form] = formValidator;
     });
 }
 
