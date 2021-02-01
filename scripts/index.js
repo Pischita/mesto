@@ -10,8 +10,18 @@ import {
     initialCards
 } from './Data.js';
 
+import Section from './Section.js';
 
-const container = document.querySelector('.elements');
+const section = new Section({
+    items: initialCards,
+    renderer: item => {
+        const card = new Card(item, '#mesto-element', showImagePopup);
+        const cardElement = card.generateCard();
+        return cardElement;
+    }
+}, '.elements');
+
+//const container = document.querySelector('.elements');
 
 const imagePopup = document.querySelector('.popup_name_imagePopup');
 const imgNode = imagePopup.querySelector('.popup__image');
@@ -62,7 +72,6 @@ function showPopup(popupElement) {
 }
 
 function showImagePopup(evt) {
-
     imgNode.src = evt.target.src;
     imgNode.alt = evt.target.alt;
     imagePopupTitle.textContent = evt.target.alt;
@@ -80,7 +89,7 @@ function addNewMesto(evt) {
         name: name,
         link: link
     }, '#mesto-element', showImagePopup).generateCard();
-    container.prepend(mestoNode);
+    section.addItem(mestoNode, true);
 
     addForm.reset();
     closePopup(addPopup);
@@ -122,15 +131,9 @@ document.querySelectorAll('.popup').forEach((popup) => {
     });
 });
 
-function initializePage() {
-    initialCards.forEach(item => {
-        const card = new Card(item, '#mesto-element', showImagePopup);
-        const cardElement = card.generateCard();
-        container.append(cardElement);
-    });
-}
 
-initializePage();
+
+section.renderItems();
 
 
 // VALIDATE 
