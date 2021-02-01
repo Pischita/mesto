@@ -11,6 +11,7 @@ import {
 } from './Data.js';
 
 import Section from './Section.js';
+import PopupWithImage from './PopupWithImage.js';
 
 const section = new Section({
     items: initialCards,
@@ -21,11 +22,13 @@ const section = new Section({
     }
 }, '.elements');
 
+const imagePopup = new PopupWithImage('.popup_name_imagePopup');
+
 //const container = document.querySelector('.elements');
 
-const imagePopup = document.querySelector('.popup_name_imagePopup');
-const imgNode = imagePopup.querySelector('.popup__image');
-const imagePopupTitle = imagePopup.querySelector('.popup__image-description');
+
+
+
 
 const editPopup = document.querySelector('.popup_name_edit');
 const addPopup = document.querySelector('.popup_name_add');
@@ -66,16 +69,17 @@ function closeByEscape(evt) {
     }
 }
 
-function showPopup(popupElement) {
-    popupElement.classList.add('popup_opened');
-    document.addEventListener('keydown', closeByEscape);
-}
+// function showPopup(popupElement) {
+//     popupElement.classList.add('popup_opened');
+//     document.addEventListener('keydown', closeByEscape);
+// }
 
 function showImagePopup(evt) {
-    imgNode.src = evt.target.src;
+    imagePopup.open(evt.target.src, evt.target.alt);
+    /* imgNode.src = evt.target.src;
     imgNode.alt = evt.target.alt;
     imagePopupTitle.textContent = evt.target.alt;
-    showPopup(imagePopup);
+    showPopup(imagePopup); */
 
 }
 
@@ -110,11 +114,11 @@ function saveEditPopup(event) {
 }
 
 editBtn.addEventListener('click', showEditPopup);
-closePopupBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        closePopup(btn.closest('.popup'));
-    });
-});
+// closePopupBtns.forEach(btn => {
+//     btn.addEventListener('click', () => {
+//         closePopup(btn.closest('.popup'));
+//     });
+// });
 
 document.forms.edit.addEventListener('submit', saveEditPopup);
 document.forms.add.addEventListener('submit', addNewMesto);
