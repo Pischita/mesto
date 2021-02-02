@@ -12,6 +12,7 @@ import {
 
 import Section from './Section.js';
 import PopupWithImage from './PopupWithImage.js';
+import PopupWithForm from './PopupWithForm.js';
 
 const section = new Section({
     items: initialCards,
@@ -23,6 +24,11 @@ const section = new Section({
 }, '.elements');
 
 const imagePopup = new PopupWithImage('.popup_name_imagePopup');
+const editPopup = new PopupWithForm('.popup_name_edit', saveEditPopup);
+const nameNode = document.querySelector('.profile__name');
+const positionNode = document.querySelector('.profile__position');
+
+const addPopup = new PopupWithForm('.popup_name_add', addNewMesto);
 
 //const container = document.querySelector('.elements');
 
@@ -30,15 +36,16 @@ const imagePopup = new PopupWithImage('.popup_name_imagePopup');
 
 
 
-const editPopup = document.querySelector('.popup_name_edit');
-const addPopup = document.querySelector('.popup_name_add');
+
+
+
 const editBtn = document.querySelector('.profile__edit-button');
 const addBtn = document.querySelector('.profile__add-button');
 const closePopupBtns = document.querySelectorAll('.popup__close-button');
 const addForm = document.forms.add;
-const nameNode = document.querySelector('.profile__name');
+
 const nameInput = document.querySelector('.popup__field_name_name');
-const positionNode = document.querySelector('.profile__position');
+
 const positionInput = document.querySelector('.popup__field_name_position');
 const formSet = {};
 
@@ -46,57 +53,51 @@ const formSet = {};
 
 
 function showEditPopup(event) {
-    nameInput.value = nameNode.textContent;
-    positionInput.value = positionNode.textContent;
-    showPopup(editPopup);
+    // nameInput.value = ;
+    // positionInput.value = ;
+    editPopup.setInputValues({
+        name: nameNode.textContent,
+        position: positionNode.textContent
+    });
+    editPopup.open();
+
 }
 
 function showAddPopup() {
-    addForm.reset();
-    showPopup(addPopup);
+    // addForm.reset();
+    // showPopup(addPopup);
+    addPopup.open();
 }
 
 
-function closePopup(popupElement) {
-    popupElement.classList.remove('popup_opened');
-    document.removeEventListener('keydown', closeByEscape);
-}
-
-function closeByEscape(evt) {
-    if (evt.key === 'Escape') {
-        const openedPopup = document.querySelector('.popup_opened')
-        closePopup(openedPopup);
-    }
-}
-
-// function showPopup(popupElement) {
-//     popupElement.classList.add('popup_opened');
-//     document.addEventListener('keydown', closeByEscape);
+// function closePopup(popupElement) {
+//     popupElement.classList.remove('popup_opened');
+//     document.removeEventListener('keydown', closeByEscape);
 // }
+
+// function closeByEscape(evt) {
+//     if (evt.key === 'Escape') {
+//         const openedPopup = document.querySelector('.popup_opened')
+//         closePopup(openedPopup);
+//     }
+// }
+
 
 function showImagePopup(evt) {
     imagePopup.open(evt.target.src, evt.target.alt);
-    /* imgNode.src = evt.target.src;
-    imgNode.alt = evt.target.alt;
-    imagePopupTitle.textContent = evt.target.alt;
-    showPopup(imagePopup); */
-
 }
 
 function addNewMesto(evt) {
     evt.preventDefault();
 
-    const name = addForm.querySelector('.popup__field_name_city').value;
-    const link = addForm.querySelector('.popup__field_name_source-image').value;
-
-    const mestoNode = new Card({
-        name: name,
-        link: link
-    }, '#mesto-element', showImagePopup).generateCard();
+    let formData = addPopup.getInputValues();
+    const mestoNode = new Card(formData, '#mesto-element', showImagePopup).generateCard();
     section.addItem(mestoNode, true);
 
-    addForm.reset();
-    closePopup(addPopup);
+    addPopup.close();
+
+    // addForm.reset();
+    // closePopup(addPopup);
 
     if (formSet[addForm]) {
         formSet[addForm].validateForm();
@@ -107,10 +108,11 @@ function addNewMesto(evt) {
 function saveEditPopup(event) {
     event.preventDefault();
 
-    nameNode.textContent = nameInput.value;
-    positionNode.textContent = positionInput.value;
+    const formData = editPopup.getInputValues();
+    nameNode.textContent = formData.name;
+    positionNode.textContent = formData.position;
 
-    closePopup(editPopup);
+    editPopup.close();
 }
 
 editBtn.addEventListener('click', showEditPopup);
@@ -120,20 +122,20 @@ editBtn.addEventListener('click', showEditPopup);
 //     });
 // });
 
-document.forms.edit.addEventListener('submit', saveEditPopup);
-document.forms.add.addEventListener('submit', addNewMesto);
+// document.forms.edit.addEventListener('submit', saveEditPopup);
+// document.forms.add.addEventListener('submit', addNewMesto);
 
 
 addBtn.addEventListener('click', showAddPopup);
 
 
-document.querySelectorAll('.popup').forEach((popup) => {
-    popup.addEventListener('click', (evt) => {
-        if (evt.target.classList.contains('popup_opened') || evt.target.classList.contains('popup__close-button')) {
-            closePopup(popup);
-        }
-    });
-});
+// document.querySelectorAll('.popup').forEach((popup) => {
+//     popup.addEventListener('click', (evt) => {
+//         if (evt.target.classList.contains('popup_opened') || evt.target.classList.contains('popup__close-button')) {
+//             closePopup(popup);
+//         }
+//     });
+// });
 
 
 
