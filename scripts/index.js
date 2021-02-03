@@ -13,6 +13,7 @@ import {
 import Section from './Section.js';
 import PopupWithImage from './PopupWithImage.js';
 import PopupWithForm from './PopupWithForm.js';
+import UserInfo from './UserInfo.js';
 
 const section = new Section({
     items: initialCards,
@@ -25,8 +26,8 @@ const section = new Section({
 
 const imagePopup = new PopupWithImage('.popup_name_imagePopup');
 const editPopup = new PopupWithForm('.popup_name_edit', saveEditPopup);
-const nameNode = document.querySelector('.profile__name');
-const positionNode = document.querySelector('.profile__position');
+
+const userInfo = new UserInfo('.profile__name', '.profile__position');
 
 const addPopup = new PopupWithForm('.popup_name_add', addNewMesto);
 
@@ -55,10 +56,7 @@ const formSet = {};
 function showEditPopup(event) {
     // nameInput.value = ;
     // positionInput.value = ;
-    editPopup.setInputValues({
-        name: nameNode.textContent,
-        position: positionNode.textContent
-    });
+    editPopup.setInputValues(userInfo.getUserInfo());
     editPopup.open();
 
 }
@@ -109,8 +107,8 @@ function saveEditPopup(event) {
     event.preventDefault();
 
     const formData = editPopup.getInputValues();
-    nameNode.textContent = formData.name;
-    positionNode.textContent = formData.position;
+
+    userInfo.setUserInfo(formData);
 
     editPopup.close();
 }
