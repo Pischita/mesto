@@ -1,3 +1,4 @@
+import '../pages/index.css';
 import {
     Card
 } from './Card.js';
@@ -26,59 +27,24 @@ const section = new Section({
 
 const imagePopup = new PopupWithImage('.popup_name_imagePopup');
 const editPopup = new PopupWithForm('.popup_name_edit', saveEditPopup);
-
 const userInfo = new UserInfo('.profile__name', '.profile__position');
-
 const addPopup = new PopupWithForm('.popup_name_add', addNewMesto);
-
-//const container = document.querySelector('.elements');
-
-
-
-
-
-
 
 
 const editBtn = document.querySelector('.profile__edit-button');
 const addBtn = document.querySelector('.profile__add-button');
-const closePopupBtns = document.querySelectorAll('.popup__close-button');
+
 const addForm = document.forms.add;
-
-const nameInput = document.querySelector('.popup__field_name_name');
-
-const positionInput = document.querySelector('.popup__field_name_position');
 const formSet = {};
 
-
-
-
 function showEditPopup(event) {
-    // nameInput.value = ;
-    // positionInput.value = ;
     editPopup.setInputValues(userInfo.getUserInfo());
     editPopup.open();
-
 }
 
 function showAddPopup() {
-    // addForm.reset();
-    // showPopup(addPopup);
     addPopup.open();
 }
-
-
-// function closePopup(popupElement) {
-//     popupElement.classList.remove('popup_opened');
-//     document.removeEventListener('keydown', closeByEscape);
-// }
-
-// function closeByEscape(evt) {
-//     if (evt.key === 'Escape') {
-//         const openedPopup = document.querySelector('.popup_opened')
-//         closePopup(openedPopup);
-//     }
-// }
 
 
 function showImagePopup(evt) {
@@ -94,9 +60,6 @@ function addNewMesto(evt) {
 
     addPopup.close();
 
-    // addForm.reset();
-    // closePopup(addPopup);
-
     if (formSet[addForm]) {
         formSet[addForm].validateForm();
     }
@@ -105,37 +68,15 @@ function addNewMesto(evt) {
 
 function saveEditPopup(event) {
     event.preventDefault();
-
     const formData = editPopup.getInputValues();
-
     userInfo.setUserInfo(formData);
-
     editPopup.close();
 }
 
 editBtn.addEventListener('click', showEditPopup);
-// closePopupBtns.forEach(btn => {
-//     btn.addEventListener('click', () => {
-//         closePopup(btn.closest('.popup'));
-//     });
-// });
-
-// document.forms.edit.addEventListener('submit', saveEditPopup);
-// document.forms.add.addEventListener('submit', addNewMesto);
 
 
 addBtn.addEventListener('click', showAddPopup);
-
-
-// document.querySelectorAll('.popup').forEach((popup) => {
-//     popup.addEventListener('click', (evt) => {
-//         if (evt.target.classList.contains('popup_opened') || evt.target.classList.contains('popup__close-button')) {
-//             closePopup(popup);
-//         }
-//     });
-// });
-
-
 
 section.renderItems();
 

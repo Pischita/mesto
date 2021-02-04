@@ -1,0 +1,36 @@
+{
+  "name": "places",
+  "version": "1.0.0",
+  "description": "Проект предназначен для закрепления на практике материала изученного в Яндекс.Практикуме.",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --mode production",
+    "dev": "webpack serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pischita/mesto.git"
+  },
+  "author": "Ivan Pischita",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Pischita/mesto/issues"
+  },
+  "homepage": "https://github.com/Pischita/mesto#readme",
+  "devDependencies": {
+    "@babel/core": "^7.12.13",
+    "@babel/preset-env": "^7.12.13",
+    "babel-loader": "^8.2.2",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^5.0.1",
+    "html-webpack-plugin": "^5.0.0",
+    "mini-css-extract-plugin": "^1.3.5",
+    "webpack": "^5.20.2",
+    "webpack-cli": "^4.5.0",
+    "webpack-dev-server": "^3.11.2"
+  },
+  "dependencies": {
+    "core-js": "^3.8.3"
+  }
+}
