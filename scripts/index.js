@@ -60,8 +60,10 @@ function addNewMesto(evt) {
 
     addPopup.close();
 
-    if (formSet[addForm]) {
-        formSet[addForm].validateForm();
+    const editForm = document.forms.edit;
+    addPopup.reset();
+    if (formSet[editForm]) {
+        formSet[editForm].validateForm();
     }
 
 }
