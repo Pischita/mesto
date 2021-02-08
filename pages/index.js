@@ -18,11 +18,7 @@ import UserInfo from '../scripts/UserInfo.js';
 
 const section = new Section({
     items: initialCards,
-    renderer: item => {
-        const card = new Card(item, '#mesto-element', showImagePopup);
-        const cardElement = card.generateCard();
-        return cardElement;
-    }
+    renderer: createCard
 }, '.elements');
 
 const imagePopup = new PopupWithImage('.popup_name_imagePopup');
@@ -36,6 +32,13 @@ const addBtn = document.querySelector('.profile__add-button');
 
 const addForm = document.forms.add;
 const formSet = new Map();
+
+function createCard(item) {
+    const card = new Card(item, '#mesto-element', showImagePopup);
+    const cardElement = card.generateCard();
+    return cardElement;
+
+}
 
 function showEditPopup(event) {
     editPopup.reset();
@@ -66,16 +69,15 @@ function showImagePopup(evt) {
 function addNewMesto(evt) {
     evt.preventDefault();
 
-    let formData = addPopup.getInputValues();
-    const mestoNode = new Card(formData, '#mesto-element', showImagePopup).generateCard();
+    const mestoNode = createCard(addPopup.getInputValues());
     section.addItem(mestoNode, true);
 
     addPopup.close();
 
-    const editForm = document.forms.edit;
+    const addForm = document.forms.add;
     addPopup.reset();
-    if (formSet.has(editForm)) {
-        formSet.get(editForm).validateForm();
+    if (formSet.has(addForm)) {
+        formSet.get(addForm).validateForm();
     }
 
 }

@@ -22,7 +22,7 @@ export class FormValidator {
 
         if (isValid) {
             this._submitButton.classList.remove(this._settings.inactiveButtonClass);
-            submitButton.removeAttribute('disabled');
+            this._submitButton.removeAttribute('disabled');
         } else {
             this._submitButton.classList.add(this._settings.inactiveButtonClass);
             this._submitButton.setAttribute('disabled', true);

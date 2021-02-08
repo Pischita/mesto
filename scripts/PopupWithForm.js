@@ -28,10 +28,9 @@ export default class PopupWithForm extends Popup {
                     return input.name === key
                 });
                 input.value = data[key];
+                this._formValues[input.name] = data[key];
             }
         }
-
-        this.getInputValues();
     }
 
     reset() {
@@ -41,8 +40,10 @@ export default class PopupWithForm extends Popup {
         });
     }
 
-    open() {
-        super.open();
+
+    close() {
+        super.close();
+        this._container.querySelector('form').reset();
     }
 
 
