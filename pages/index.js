@@ -25,7 +25,7 @@ const section = new Section({
     }
 }, '.elements');
 
-const imagePopup = new sWithImage('.popup_name_imagePopup');
+const imagePopup = new PopupWithImage('.popup_name_imagePopup');
 const editPopup = new PopupWithForm('.popup_name_edit', saveEditPopup);
 const userInfo = new UserInfo('.profile__name', '.profile__position');
 const addPopup = new PopupWithForm('.popup_name_add', addNewMesto);
@@ -35,14 +35,26 @@ const editBtn = document.querySelector('.profile__edit-button');
 const addBtn = document.querySelector('.profile__add-button');
 
 const addForm = document.forms.add;
-const formSet = {};
+const formSet = new Map();
 
 function showEditPopup(event) {
+    editPopup.reset();
+    if (formSet.has(document.forms.edit)) {
+        formSet.get(document.forms.edit).resetValidation();
+    }
     editPopup.setInputValues(userInfo.getUserInfo());
     editPopup.open();
+
+
 }
 
 function showAddPopup() {
+
+    addPopup.reset();
+    if (formSet.has(document.forms.add)) {
+        formSet.get(document.forms.add).resetValidation();
+    }
+
     addPopup.open();
 }
 
@@ -62,8 +74,8 @@ function addNewMesto(evt) {
 
     const editForm = document.forms.edit;
     addPopup.reset();
-    if (formSet[editForm]) {
-        formSet[editForm].validateForm();
+    if (formSet.has(editForm)) {
+        formSet.get(editForm).validateForm();
     }
 
 }
@@ -100,7 +112,7 @@ function enableValidation(settings) {
     Array.from(forms).forEach((form) => {
         const formValidator = new FormValidator(form, settings);
         formValidator.enableValidation();
-        formSet[form] = formValidator;
+        formSet.set(form, formValidator);
     });
 }
 

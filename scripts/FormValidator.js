@@ -2,32 +2,30 @@ export class FormValidator {
     constructor(form, settings) {
         this._form = form;
         this._settings = settings;
+        this._inputList = Array.from(this._form.querySelectorAll(this._settings.inputSelector));
+        this._submitButton = this._form.querySelector(this._settings.submitButtonSelector);
     }
 
     enableValidation() {
-        this._form.querySelectorAll(this._settings.inputSelector).forEach(input => {
+        this._inputList.forEach(input => {
             input.addEventListener('input', (evt) => {
                 this._validateField(input);
             });
-
         });
         this.validateForm();
     }
 
     validateForm = () => {
-        const inputs = this._form.querySelectorAll(this._settings.inputSelector);
-        const submitButton = this._form.querySelector(this._settings.submitButtonSelector);
-
-        const isValid = Array.from(inputs).every(input => {
+        const isValid = this._inputList.every(input => {
             return input.validity.valid;
         });
 
         if (isValid) {
-            submitButton.classList.remove(this._settings.inactiveButtonClass);
+            this._submitButton.classList.remove(this._settings.inactiveButtonClass);
             submitButton.removeAttribute('disabled');
         } else {
-            submitButton.classList.add(this._settings.inactiveButtonClass);
-            submitButton.setAttribute('disabled', true);
+            this._submitButton.classList.add(this._settings.inactiveButtonClass);
+            this._submitButton.setAttribute('disabled', true);
         }
     }
 
@@ -44,6 +42,17 @@ export class FormValidator {
         this.validateForm();
     }
 
+    _hideError(inputElement) {
+        const errorElement = this._form.querySelector(`#${inputElement.id}-error`);
+        errorElement.textContent = '';
+        inputElement.classList.remove(this._settings.inputErrorClass);
+    }
 
+    resetValidation = () => {
+        this._inputList.forEach(input => {
+            this._hideError(input);
+        });
 
+        this.validateForm();
+    }
 }
