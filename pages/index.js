@@ -15,15 +15,18 @@ import Section from '../scripts/Section.js';
 import PopupWithImage from '../scripts/PopupWithImage.js';
 import PopupWithForm from '../scripts/PopupWithForm.js';
 import UserInfo from '../scripts/UserInfo.js';
+import Api from '../scripts/Api.js';
 
 const section = new Section({
     items: initialCards,
     renderer: createCard
 }, '.elements');
 
+
+
 const imagePopup = new PopupWithImage('.popup_name_imagePopup');
 const editPopup = new PopupWithForm('.popup_name_edit', saveEditPopup);
-const userInfo = new UserInfo('.profile__name', '.profile__position');
+const userInfo = new UserInfo('.profile__name', '.profile__position', '.profile__avatar');
 const addPopup = new PopupWithForm('.popup_name_add', addNewMesto);
 
 
@@ -120,3 +123,22 @@ function enableValidation(settings) {
 
 
 enableValidation(settings);
+
+// API 
+const token = '55b21135-2418-4338-a05e-482937f04ba3';
+const group = 'cohort-20';
+const url = 'https://mesto.nomoreparties.co/v1/' + group + '/';
+
+const api = new Api(url, token);
+
+api.getUserName().then(data => {
+        userInfo.setUserInfo({
+            name: data.name,
+            position: data.about,
+            avatar: data.avatar,
+            id: data._id
+        });
+    })
+    .catch(err => {
+        console.log(err)
+    });
