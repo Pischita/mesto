@@ -26,7 +26,31 @@ export default class Api {
 
     }
 
+    saveUser(name, position) {
+        return fetch(`${this._url}users/me`, {
+                method: 'PATCH',
+                headers: {
+                    authorization: this._token,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: name,
+                    about: position
+                })
+            })
+            .then(res => {
+                if (res.ok) {
+                    return res.json();
+                } else {
+                    Promise.reject(res.status + ' ' + res.statusText);
+                }
+
+            })
+    }
+
     getCards() {
         return this._send('cards');
     }
+
+
 }

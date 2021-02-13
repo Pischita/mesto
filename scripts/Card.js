@@ -4,6 +4,7 @@ class Card {
         this.name = data.name;
         this._selector = selector;
         this._showImagePopup = showImagePopup;
+        this.id = data._id;
 
     }
 

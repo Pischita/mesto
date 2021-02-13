@@ -82,8 +82,25 @@ function addNewMesto(evt) {
 function saveEditPopup(event) {
     event.preventDefault();
     const formData = editPopup.getInputValues();
-    userInfo.setUserInfo(formData);
-    editPopup.close();
+
+    api.saveUser(formData.name, formData.position)
+        .then((data) => {
+            userInfo.setUserInfo({
+                name: data.name,
+                position: data.about,
+                id: data._id
+            });
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+        .finally(() => {
+            editPopup.close();
+        });
+
+
+
+
 }
 
 editBtn.addEventListener('click', showEditPopup);
@@ -145,9 +162,7 @@ api.getCards()
             items: data,
             renderer: createCard
         }, '.elements');
-
         section.renderItems();
-
     })
     .catch(err => {
         console.log(err)
