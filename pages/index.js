@@ -7,9 +7,7 @@ import {
     FormValidator
 } from '../scripts/FormValidator.js';
 
-import {
-    initialCards
-} from '../utils/data.js';
+
 
 import Section from '../scripts/Section.js';
 import PopupWithImage from '../scripts/PopupWithImage.js';
@@ -17,10 +15,6 @@ import PopupWithForm from '../scripts/PopupWithForm.js';
 import UserInfo from '../scripts/UserInfo.js';
 import Api from '../scripts/Api.js';
 
-const section = new Section({
-    items: initialCards,
-    renderer: createCard
-}, '.elements');
 
 
 
@@ -97,7 +91,7 @@ editBtn.addEventListener('click', showEditPopup);
 
 addBtn.addEventListener('click', showAddPopup);
 
-section.renderItems();
+
 
 
 // VALIDATE 
@@ -138,6 +132,22 @@ api.getUserName().then(data => {
             avatar: data.avatar,
             id: data._id
         });
+    })
+    .catch(err => {
+        console.log(err)
+    });
+
+
+api.getCards()
+    .then(data => {
+
+        const section = new Section({
+            items: data,
+            renderer: createCard
+        }, '.elements');
+
+        section.renderItems();
+
     })
     .catch(err => {
         console.log(err)

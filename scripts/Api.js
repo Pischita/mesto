@@ -4,10 +4,8 @@ export default class Api {
         this._token = token;
     }
 
-
-
-    getUserName() {
-        return fetch(`${this._url}users/me`, {
+    _send(path) {
+        return fetch(`${this._url}${path}`, {
                 headers: {
                     authorization: this._token
                 }
@@ -21,5 +19,14 @@ export default class Api {
 
             });
 
+    }
+
+    getUserName() {
+        return this._send('users/me');
+
+    }
+
+    getCards() {
+        return this._send('cards');
     }
 }
