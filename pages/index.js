@@ -66,17 +66,22 @@ function showImagePopup(evt) {
 function addNewMesto(evt) {
     evt.preventDefault();
 
-    const mestoNode = createCard(addPopup.getInputValues());
-    section.addItem(mestoNode, true);
+    const placeData = addPopup.getInputValues();
 
-    addPopup.close();
+    api.saveCard(placeData.name, placeData.link)
+        .then(data => {
+            const mestoNode = createCard(data);
+            section.addItem(mestoNode, true);
+        }).catch(err => console.log(err))
+        .finally(() => {
+            addPopup.close();
 
-    const addForm = document.forms.add;
-    addPopup.reset();
-    if (formSet.has(addForm)) {
-        formSet.get(addForm).validateForm();
-    }
-
+            const addForm = document.forms.add;
+            addPopup.reset();
+            if (formSet.has(addForm)) {
+                formSet.get(addForm).validateForm();
+            }
+        });
 }
 
 function saveEditPopup(event) {

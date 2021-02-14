@@ -52,5 +52,28 @@ export default class Api {
         return this._send('cards');
     }
 
+    saveCard(name, link) {
+        return fetch(`${this._url}cards`, {
+                method: 'POST',
+                headers: {
+                    authorization: this._token,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: name,
+                    link: link
+                })
+            })
+            .then(res => {
+                if (res.ok) {
+                    return res.json();
+                } else {
+                    Promise.reject(res.status + ' ' + res.statusText);
+                }
+
+            })
+
+    }
+
 
 }
