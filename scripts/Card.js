@@ -2,6 +2,7 @@ class Card {
     constructor(data, selector, showImagePopup) {
         this.link = data.link;
         this.name = data.name;
+        this.likeCount = data.likes.length;
         this._selector = selector;
         this._showImagePopup = showImagePopup;
         this.id = data._id;
@@ -37,6 +38,7 @@ class Card {
         imgNode.alt = this.name;
 
         this._element.querySelector('.element__name').textContent = this.name;
+        this._element.querySelector('.element__like-count').textContent = this.likeCount;
 
         this._setEventListeners();
 
