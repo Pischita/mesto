@@ -1,12 +1,12 @@
 class Card {
-    constructor(data, selector, showImagePopup) {
+    constructor(data, selector, showImagePopup, deleteHandler) {
         this.link = data.link;
         this.name = data.name;
         this.likeCount = data.likes.length;
         this._selector = selector;
         this._showImagePopup = showImagePopup;
         this.id = data._id;
-
+        this._delete = deleteHandler;
     }
 
     _getTemplate() {
@@ -19,8 +19,9 @@ class Card {
         evt.target.classList.toggle('element__like-button_active');
     }
 
-    _deleteHandeler(evt) {
-        evt.target.closest('.element').remove();
+    _deleteHandeler = (evt) => {
+        const container = evt.target.closest('.element');
+        this._delete(container);
     }
 
 
