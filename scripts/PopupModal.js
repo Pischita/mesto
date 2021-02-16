@@ -31,8 +31,9 @@ export default class PopupModal extends Popup {
     }
 
     close() {
-        super.close();
         this._reject();
+        super.close();
+
     }
 
 

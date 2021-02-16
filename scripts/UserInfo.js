@@ -9,7 +9,8 @@ export default class UserInfo {
     getUserInfo() {
         return {
             name: this._nameNode.textContent,
-            position: this._positionNode.textContent
+            position: this._positionNode.textContent,
+            id: this.id
         }
 
     }

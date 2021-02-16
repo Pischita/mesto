@@ -16,6 +16,11 @@ import PopupModal from '../scripts/PopupModal.js';
 import UserInfo from '../scripts/UserInfo.js';
 import Api from '../scripts/Api.js';
 
+const section = new Section({
+    items: [],
+    renderer: createCard
+}, '.elements');
+
 
 
 
@@ -33,7 +38,7 @@ const addForm = document.forms.add;
 const formSet = new Map();
 
 function createCard(item) {
-    const card = new Card(item, '#mesto-element', showImagePopup, deletePlace);
+    const card = new Card(item, '#mesto-element', showImagePopup, deletePlace, userInfo.getUserInfo());
     const cardElement = card.generateCard();
     return cardElement;
 }
@@ -42,11 +47,13 @@ function createCard(item) {
 function deletePlace(placeElement) {
     questionPopup.open()
         .then(() => {
-            console.log("Удаление");
+            let id = placeElement.dataset.id;
+            return api.deleteCard(id);
+        }).then(() => {
             placeElement.remove();
         })
-        .catch(() => {
-            console.log("Отмена удаления");
+        .catch((err) => {
+
         });
     //
 }
@@ -176,6 +183,7 @@ api.getUserName().then(data => {
 
 api.getCards()
     .then(data => {
+
 
         const section = new Section({
             items: data,
