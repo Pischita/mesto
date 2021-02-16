@@ -12,6 +12,7 @@ import {
 import Section from '../scripts/Section.js';
 import PopupWithImage from '../scripts/PopupWithImage.js';
 import PopupWithForm from '../scripts/PopupWithForm.js';
+import PopupModal from '../scripts/PopupModal.js';
 import UserInfo from '../scripts/UserInfo.js';
 import Api from '../scripts/Api.js';
 
@@ -22,7 +23,7 @@ const imagePopup = new PopupWithImage('.popup_name_imagePopup');
 const editPopup = new PopupWithForm('.popup_name_edit', saveEditPopup);
 const userInfo = new UserInfo('.profile__name', '.profile__position', '.profile__avatar');
 const addPopup = new PopupWithForm('.popup_name_add', addNewMesto);
-const questionPopup = new PopupWithForm('.popup_name_question');
+const questionPopup = new PopupModal('.popup_name_question');
 
 
 const editBtn = document.querySelector('.profile__edit-button');
@@ -37,13 +38,17 @@ function createCard(item) {
     return cardElement;
 }
 
-function answerYes() {
-
-}
 
 function deletePlace(placeElement) {
-    questionPopup.open();
-    //placeElement.remove();
+    questionPopup.open()
+        .then(() => {
+            console.log("Удаление");
+            placeElement.remove();
+        })
+        .catch(() => {
+            console.log("Отмена удаления");
+        });
+    //
 }
 
 
