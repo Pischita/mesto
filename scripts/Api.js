@@ -92,4 +92,42 @@ export default class Api {
 
             });
     }
+
+    setLike(id) {
+        return fetch(`${this._url}cards/likes/${id}`, {
+                method: 'PUT',
+                headers: {
+                    authorization: this._token,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(res => {
+                if (res.ok) {
+                    return res.json();
+                } else {
+                    return Promise.reject(res.status + ' ' + res.statusText);
+                }
+
+            });
+
+    }
+
+    deleteLike(id) {
+        return fetch(`${this._url}cards/likes/${id}`, {
+                method: 'PUT',
+                headers: {
+                    authorization: this._token,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(res => {
+                if (res.ok) {
+                    return res.json();
+                } else {
+                    Promise.reject(res.status + ' ' + res.statusText);
+                }
+
+            });
+
+    }
 }

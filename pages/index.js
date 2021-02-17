@@ -38,7 +38,7 @@ const addForm = document.forms.add;
 const formSet = new Map();
 
 function createCard(item) {
-    const card = new Card(item, '#mesto-element', showImagePopup, deletePlace, userInfo.getUserInfo());
+    const card = new Card(item, '#mesto-element', showImagePopup, deletePlace, userInfo.getUserInfo(), likeHandler);
     const cardElement = card.generateCard();
     return cardElement;
 }
@@ -54,8 +54,32 @@ function deletePlace(placeElement) {
         })
         .catch((err) => {
 
+
         });
-    //
+}
+
+function likeHandler(likeBtn, cardObject) {
+    if (cardObject.isLiked) {
+        api.deleteLike(cardObject.id)
+            .then(data => {
+                cardObject.updateLikes(data.likes);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    } else {
+        api.setLike(cardObject.id)
+            .then(data => {
+                cardObject.updateLikes(data.likes);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
+
+
+
+
 }
 
 
