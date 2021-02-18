@@ -18,9 +18,6 @@ class Card {
         }
 
         this.isLiked;
-
-
-
     }
 
     _getTemplate() {
@@ -30,7 +27,9 @@ class Card {
     }
 
     _setLikeHandler = (evt) => {
-        this._likeHandler(evt.target, this);
+        const element = evt.target.closest('.element');
+        const isLiked = evt.target.classList.contains('element__like-button_active');
+        this._likeHandler(this.id, isLiked, this.updateLikes, element);
 
     }
 
@@ -50,16 +49,16 @@ class Card {
         this._element.querySelector('.element__image').addEventListener('click', this._showImagePopup);
     }
 
-    updateLikes = (dataLikes) => {
+    updateLikes = (dataLikes, element) => {
 
         if (dataLikes.find(item => item._id == this._userInfo.id)) {
-            this._element.querySelector('.element__like-button').classList.add('element__like-button_active');
+            element.querySelector('.element__like-button').classList.add('element__like-button_active');
             this.isLiked = true;
         } else {
-            this._element.querySelector('.element__like-button').classList.remove('element__like-button_active');
+            element.querySelector('.element__like-button').classList.remove('element__like-button_active');
             this.isLiked = false;
         }
-        this._element.querySelector('.element__like-count').textContent = dataLikes.length;
+        element.querySelector('.element__like-count').textContent = dataLikes.length;
 
     }
 
@@ -76,7 +75,7 @@ class Card {
 
         this._element.querySelector('.element__name').textContent = this.name;
 
-        this.updateLikes(this._data.likes);
+        this.updateLikes(this._data.likes, this._element);
         this._setEventListeners();
 
         return this._element;

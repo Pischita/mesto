@@ -26,13 +26,15 @@ const section = new Section({
 
 const imagePopup = new PopupWithImage('.popup_name_imagePopup');
 const editPopup = new PopupWithForm('.popup_name_edit', saveEditPopup);
-const userInfo = new UserInfo('.profile__name', '.profile__position', '.profile__avatar');
+const avatarPopup = new PopupWithForm('.popup_name_avatar-edit', saveAvatar);
+const userInfo = new UserInfo('.profile__name', '.profile__position', '.profile__avatar-image');
 const addPopup = new PopupWithForm('.popup_name_add', addNewMesto);
 const questionPopup = new PopupModal('.popup_name_question');
 
 
 const editBtn = document.querySelector('.profile__edit-button');
 const addBtn = document.querySelector('.profile__add-button');
+const editAvatarBtn = document.querySelector('.profile__avatar-edit');
 
 const addForm = document.forms.add;
 const formSet = new Map();
@@ -58,27 +60,24 @@ function deletePlace(placeElement) {
         });
 }
 
-function likeHandler(likeBtn, cardObject) {
-    if (cardObject.isLiked) {
-        api.deleteLike(cardObject.id)
+function likeHandler(id, isLiked, updateHandler, element) {
+    if (isLiked) {
+        api.deleteLike(id)
             .then(data => {
-                cardObject.updateLikes(data.likes);
+                updateHandler(data.likes, element);
             })
             .catch(err => {
                 console.log(err);
             });
     } else {
-        api.setLike(cardObject.id)
+        api.setLike(id)
             .then(data => {
-                cardObject.updateLikes(data.likes);
+                updateHandler(data.likes, element);
             })
             .catch(err => {
                 console.log(err);
             });
     }
-
-
-
 
 }
 
@@ -99,10 +98,14 @@ function showAddPopup() {
     if (formSet.has(document.forms.add)) {
         formSet.get(document.forms.add).resetValidation();
     }
-
     addPopup.open();
 }
 
+function showEditAvatar(evt) {
+    evt.preventDefault();
+    avatarPopup.reset();
+    avatarPopup.open();
+}
 
 function showImagePopup(evt) {
     imagePopup.open(evt.target.src, evt.target.alt);
@@ -138,6 +141,7 @@ function saveEditPopup(event) {
             userInfo.setUserInfo({
                 name: data.name,
                 position: data.about,
+                avatar: data.avatar,
                 id: data._id
             });
         })
@@ -147,11 +151,30 @@ function saveEditPopup(event) {
         .finally(() => {
             editPopup.close();
         });
+}
 
-
-
+function saveAvatar(evt) {
+    evt.preventDefault();
+    const formData = avatarPopup.getInputValues();
+    api.updateAvatar(formData.link)
+        .then(data => {
+            userInfo.setUserInfo({
+                name: data.name,
+                position: data.about,
+                avatar: data.avatar,
+                id: data._id
+            });
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+        .finally(() => {
+            avatarPopup.close();
+        });
 
 }
+
+
 
 editBtn.addEventListener('click', showEditPopup);
 
@@ -159,6 +182,7 @@ editBtn.addEventListener('click', showEditPopup);
 addBtn.addEventListener('click', showAddPopup);
 
 
+editAvatarBtn.addEventListener('click', showEditAvatar);
 
 
 // VALIDATE 

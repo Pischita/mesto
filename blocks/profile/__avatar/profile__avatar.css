@@ -5,6 +5,7 @@
   object-fit: cover;
   object-position: center;
   margin-right: 27px;
+  position: relative;
 }
 
 @media screen and (max-width: 767px) {

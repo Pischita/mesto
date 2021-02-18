@@ -17,7 +17,13 @@
     <main>
         <section class="profile">
             <!-- <img class="profile__avatar" src="<%=require('./images/avatar.jpg')%>" alt="Аватарка"> -->
-            <img class="profile__avatar" src="../images/avatar.jpg" alt="Аватарка">
+            <div class="profile__avatar">
+                <img class="profile__avatar-image" src="../images/avatar.jpg" alt="Аватарка">
+                <button class="profile__avatar-edit" type="button">
+
+                </button>
+            </div>
+
 
             <div class="profile__info">
                 <div class="profile__name-container">
@@ -79,6 +85,17 @@
         <form class="popup__container">
             <p class="popup__title">Вы уверены?</p>
             <button class="popup__button" type="submit">Да</button>
+            <button class="popup__close-button" type="button" aria-label="Закрыть"></button>
+        </form>
+    </div>
+
+    <div class="popup popup_name_avatar-edit">
+        <form class="popup__container popup__form" name="avatar" novalidate>
+            <h2 class="popup__header">Обновить аватар</h2>
+            <input class="popup__field popup__field_name_source-avatar" id="add-source-avatar" type="url" name="link"
+                placeholder="Ссылка на фото" required>
+            <span class="popup__input-error-message" id="add-source-avatar-error"></span>
+            <button class="popup__button" type="submit">Сохранить</button>
             <button class="popup__close-button" type="button" aria-label="Закрыть"></button>
         </form>
     </div>
