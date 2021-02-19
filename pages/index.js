@@ -1,4 +1,4 @@
-//import '../pages/index.css';
+import '../pages/index.css';
 import {
     Card
 } from '../scripts/Card.js';
@@ -113,7 +113,7 @@ function showImagePopup(evt) {
 
 function addNewMesto(evt) {
     evt.preventDefault();
-
+    addPopup.setLoadingState();
     const placeData = addPopup.getInputValues();
 
     api.saveCard(placeData.name, placeData.link)
@@ -122,18 +122,21 @@ function addNewMesto(evt) {
             section.addItem(mestoNode, true);
         }).catch(err => console.log(err))
         .finally(() => {
-            addPopup.close();
 
+            addPopup.close();
+            addPopup.endLoadingState();
             const addForm = document.forms.add;
             addPopup.reset();
             if (formSet.has(addForm)) {
                 formSet.get(addForm).validateForm();
             }
+
         });
 }
 
 function saveEditPopup(event) {
     event.preventDefault();
+    editPopup.setLoadingState();
     const formData = editPopup.getInputValues();
 
     api.saveUser(formData.name, formData.position)
@@ -150,11 +153,13 @@ function saveEditPopup(event) {
         })
         .finally(() => {
             editPopup.close();
+            editPopup.endLoadingState();
         });
 }
 
 function saveAvatar(evt) {
     evt.preventDefault();
+    avatarPopup.setLoadingState();
     const formData = avatarPopup.getInputValues();
     api.updateAvatar(formData.link)
         .then(data => {
@@ -170,6 +175,7 @@ function saveAvatar(evt) {
         })
         .finally(() => {
             avatarPopup.close();
+            avatarPopup.endLoadingState();
         });
 
 }
