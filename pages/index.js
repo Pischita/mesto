@@ -16,10 +16,7 @@ import PopupModal from '../scripts/PopupModal.js';
 import UserInfo from '../scripts/UserInfo.js';
 import Api from '../scripts/Api.js';
 
-const section = new Section({
-    items: [],
-    renderer: createCard
-}, '.elements');
+let section = undefined;
 
 
 
@@ -84,7 +81,7 @@ function likeHandler(id, isLiked, updateHandler, element) {
 
 
 function showEditPopup(event) {
-    editPopup.reset();
+
     if (formSet.has(document.forms.edit)) {
         formSet.get(document.forms.edit).resetValidation();
     }
@@ -94,7 +91,6 @@ function showEditPopup(event) {
 
 function showAddPopup() {
 
-    addPopup.reset();
     if (formSet.has(document.forms.add)) {
         formSet.get(document.forms.add).resetValidation();
     }
@@ -103,7 +99,6 @@ function showAddPopup() {
 
 function showEditAvatar(evt) {
     evt.preventDefault();
-    avatarPopup.reset();
     avatarPopup.open();
 }
 
@@ -126,7 +121,6 @@ function addNewMesto(evt) {
             addPopup.close();
             addPopup.endLoadingState();
             const addForm = document.forms.add;
-            addPopup.reset();
             if (formSet.has(addForm)) {
                 formSet.get(addForm).validateForm();
             }
@@ -239,7 +233,7 @@ api.getCards()
     .then(data => {
 
 
-        const section = new Section({
+        section = new Section({
             items: data,
             renderer: createCard
         }, '.elements');

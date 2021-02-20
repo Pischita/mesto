@@ -21,6 +21,15 @@ export default class Api {
 
     }
 
+    _checkResponse(res) {
+        if (res.ok) {
+            return res.json();
+        } else {
+            return Promise.reject(res.status + ' ' + res.statusText);
+        }
+
+    }
+
     getUserName() {
         return this._send('users/me');
 
@@ -38,14 +47,7 @@ export default class Api {
                     about: position
                 })
             })
-            .then(res => {
-                if (res.ok) {
-                    return res.json();
-                } else {
-                    return Promise.reject(res.status + ' ' + res.statusText);
-                }
-
-            })
+            .then(this._checkResponse);
     }
 
     getCards() {
@@ -64,14 +66,7 @@ export default class Api {
                     link: link
                 })
             })
-            .then(res => {
-                if (res.ok) {
-                    return res.json();
-                } else {
-                    return Promise.reject(res.status + ' ' + res.statusText);
-                }
-
-            })
+            .then(this._checkResponse);
 
     }
 
@@ -83,13 +78,7 @@ export default class Api {
                     'Content-Type': 'application/json'
                 }
             })
-            .then(res => {
-                if (res.ok) {
-                    return res.json();
-                } else {
-                    return Promise.reject(res.status + ' ' + res.statusText);
-                }
-            });
+            .then(this._checkResponse);
     }
 
     setLike(id) {
@@ -100,14 +89,7 @@ export default class Api {
                     'Content-Type': 'application/json'
                 }
             })
-            .then(res => {
-                if (res.ok) {
-                    return res.json();
-                } else {
-                    return Promise.reject(res.status + ' ' + res.statusText);
-                }
-
-            });
+            .then(this._checkResponse);
 
     }
 
@@ -119,14 +101,7 @@ export default class Api {
                     'Content-Type': 'application/json'
                 }
             })
-            .then(res => {
-                if (res.ok) {
-                    return res.json();
-                } else {
-                    Promise.reject(res.status + ' ' + res.statusText);
-                }
-
-            });
+            .then(this._checkResponse);
 
     }
 
@@ -141,14 +116,7 @@ export default class Api {
                     avatar: link
                 })
             })
-            .then(res => {
-                if (res.ok) {
-                    return res.json();
-                } else {
-                    return Promise.reject(res.status + ' ' + res.statusText);
-                }
-
-            });
+            .then(this._checkResponse);
 
     }
 }

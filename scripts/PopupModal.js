@@ -20,19 +20,19 @@ export default class PopupModal extends Popup {
     setEventListeners = () => {
         super.setEventListeners();
         this._container.addEventListener('submit', this.submit);
-
-        this._closePopupBtn.addEventListener('click', this.close);
     }
 
     submit = (evt) => {
         evt.preventDefault();
-        this._container.classList.remove('popup_opened');
+
         this._resolve();
+        this.close();
     }
 
     close() {
-        this._reject();
         super.close();
+        this._reject();
+
 
     }
 
